@@ -169,6 +169,7 @@ module.exports = class currencycom extends Exchange {
                 'newOrderRespType': {
                     'market': 'FULL', // 'ACK' for order id, 'RESULT' for full order or 'FULL' for order with fills
                     'limit': 'RESULT', // we change it from 'ACK' by default to 'RESULT'
+                    'stop': 'RESULT',
                 },
             },
             'exceptions': {
@@ -753,7 +754,9 @@ module.exports = class currencycom extends Exchange {
             timeInForceIsRequired = true;
         } else if (uppercaseType === 'LIMIT_MAKER') {
             priceIsRequired = true;
-        }
+        } else if (uppercaseType === 'STOP') {
+            priceIsRequired = true;
+        };
         if (priceIsRequired) {
             if (price === undefined) {
                 throw new InvalidOrder (this.id + ' createOrder method requires a price argument for a ' + type + ' order');
